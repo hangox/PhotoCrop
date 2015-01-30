@@ -20,7 +20,7 @@ import org.hangox.photocrop.CropParams;
  * Time: 11:44 AM
  * Desc: TestActivity
  */
-public class TestActivity extends Activity implements View.OnClickListener,CropListener {
+public class TestActivity extends Activity implements View.OnClickListener {
 
     public static final String TAG = "TestActivity";
 
@@ -34,7 +34,24 @@ public class TestActivity extends Activity implements View.OnClickListener,CropL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test);
         cropHelper.setCropParams(new CropParams());
-        cropHelper.setCropListener(this);
+        cropHelper.setCropListener(new CropListener() {
+            @Override
+            public void onPhotoCropped(Uri uri) {
+                Log.d(TAG, "Crop Uri in path: " + uri.getPath());
+                Toast.makeText(TestActivity.this, "Photo cropped!", Toast.LENGTH_LONG).show();
+                mImageView.setImageBitmap(cropHelper.getCropBitmap());
+            }
+
+            @Override
+            public void onCropCancel() {
+                Toast.makeText(TestActivity.this,"cancel",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCropFailed(String message) {
+                Toast.makeText(TestActivity.this,message+"",Toast.LENGTH_SHORT).show();
+            }
+        });
         mImageView = (ImageView) findViewById(R.id.image);
         findViewById(R.id.bt_capture).setOnClickListener(this);
         findViewById(R.id.bt_gallery).setOnClickListener(this);
@@ -56,23 +73,6 @@ public class TestActivity extends Activity implements View.OnClickListener,CropL
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         cropHelper.handleResult(requestCode,resultCode,data);
-    }
-
-    @Override
-    public void onPhotoCropped(Uri uri) {
-        Log.d(TAG, "Crop Uri in path: " + uri.getPath());
-        Toast.makeText(this, "Photo cropped!", Toast.LENGTH_LONG).show();
-        mImageView.setImageBitmap(cropHelper.getCropBitmap());
-    }
-
-    @Override
-    public void onCropCancel() {
-        Toast.makeText(this,"cacel",Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onCropFailed(String message) {
-        Toast.makeText(this,message+"",Toast.LENGTH_SHORT).show();
     }
 
 }
