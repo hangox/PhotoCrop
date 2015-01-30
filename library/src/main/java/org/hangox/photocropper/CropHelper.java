@@ -1,4 +1,4 @@
-package org.hangox.photocrop;
+package org.hangox.photocropper;
 
 import android.app.Activity;
 import android.content.Context;

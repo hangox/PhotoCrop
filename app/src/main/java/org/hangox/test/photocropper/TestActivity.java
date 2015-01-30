@@ -9,9 +9,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import org.hangox.photocrop.CropHelper;
-import org.hangox.photocrop.CropListener;
-import org.hangox.photocrop.CropParams;
+import org.hangox.photocropper.CropHelper;
+import org.hangox.photocropper.CropListener;
+import org.hangox.photocropper.CropParams;
 
 /**
  * Created with Android Studio.

@@ -1,4 +1,4 @@
-package org.hangox.photocrop;
+package org.hangox.photocropper;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
