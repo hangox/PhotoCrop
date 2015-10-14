@@ -132,6 +132,7 @@ public class CropHelper {
     }
 
     public Intent buildCropIntent(String action, CropParams params) {
+        if (mCropParams.isAutoGenerateName()) params.buildCropUri();
         return new Intent(action, null)
                 .setDataAndType(params.oImageUri, params.type)
                         //.setType(params.type)

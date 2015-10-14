@@ -4,6 +4,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created with Android Studio.
  * User: hangox
@@ -39,9 +42,26 @@ public class CropParams {
     public int outputX;
     public int outputY;
 
+    private SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
+    private Uri mStartUri = Uri.fromFile(Environment.getExternalStoragePublicDirectory(Environment
+            .DIRECTORY_PICTURES));
+    private boolean isAutoGenerateName;
+
+    public boolean isAutoGenerateName(){
+        return isAutoGenerateName;
+    }
+
     public CropParams() {
-        Uri startUri = Uri.fromFile(Environment.getExternalStoragePublicDirectory(Environment
-                .DIRECTORY_PICTURES));
+        this(true);
+    }
+
+    /**
+     * 是否自动生成图片名字
+     * @param isAutoGenerateName
+     */
+    public CropParams(boolean isAutoGenerateName){
+        this.isAutoGenerateName = isAutoGenerateName;
+        Uri startUri = mStartUri;
         cropUri = startUri.buildUpon().appendPath("crop.jpg").build();
         oImageUri = startUri.buildUpon().appendPath("oImageUri.jpg").build();
         type = CROP_TYPE;
@@ -55,6 +75,14 @@ public class CropParams {
         aspectY = DEFAULT_ASPECT;
         outputX = DEFAULT_OUTPUT;
         outputY = DEFAULT_OUTPUT;
+    }
+
+    public void buildCropUri(){
+        cropUri = mStartUri.buildUpon().appendPath(generateName()).build();
+    }
+
+    public String generateName(){
+        return "crop_" + mSimpleDateFormat.format(new Date(System.currentTimeMillis())) + ".jpg";
     }
 
 
